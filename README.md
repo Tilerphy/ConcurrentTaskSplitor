@@ -1,4 +1,4 @@
-# ConcurrentTaskSplitor
+# Concurrent Task Splitor
 Split A Tasks Group into pairs , then run them concurrently.
 
 For Example:
@@ -50,3 +50,29 @@ Worker:
 
 #How about the data  structure?
 
+Tasks Manager contains the Jobs picture.
+Tasks Manager contains the worker.
+Worker contains its tasks information.
+Worker contains its tasks manager.
+```
+class TasksManager{
+  List<Worker> works;
+  Dictionary<string, Task> tasks;
+  
+}
+
+class Worker{
+  Task task;
+  TasksManager manager;
+}
+
+class Task{
+   string uniqueNameOrId;
+   object task;
+   Dictionary<string, Task> requiredTasks;
+   Dictionary<string, Task> needTasks;
+}
+```
+
+
+#Complete it!
