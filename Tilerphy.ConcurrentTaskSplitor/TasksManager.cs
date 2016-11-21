@@ -19,63 +19,39 @@ namespace Tilerphy.ConcurrentTaskSplitor
             this.Workers.Add(new Worker());
             this.Workers.Add(new Worker());
         }
-
         /// <summary>
-        /// Add task into all tasks with its related tasks
-        /// Stackoverflow Exception Warning here. Circle relationship.
+        /// Add task
         /// </summary>
         /// <param name="task"></param>
         public void AddTask(Task task)
         {
+           this.AllTasks.Add(task.UniqueNameOrId, task);
+        }
 
-            if (this.AllTasks.ContainsKey(task.UniqueNameOrId))
-            {
-                //ignore
-            }else
-            {
-                this.AllTasks.Add(task.UniqueNameOrId, task);
-            }
-
-            foreach (string key in task.NeedOthersTasks.Keys)
-            {
-                this.AddTask(task.NeedOthersTasks[key]);
-            }
-
-            foreach (string key in task.RequiredMeTasks.Keys)
-            {
-                this.AddTask(task.RequiredMeTasks[key]);
-            }
-
+        protected virtual Task FindTaskDetail(string uniqueNameOrId)
+        {
+            return new Task();
         }
 
         public virtual void PrepareInfomation()
         {
             foreach (string key in this.AllTasks.Keys)
             {
-                this.UpdateTaskRelationShip(this.AllTasks[key]);
+                this.FixRelationship(this.AllTasks[key]);
             }
         }
 
         /// <summary>
-        /// Update the NeedOthersTasks and RequiredMeTasks information.
-        /// Cannot chanage the alltasks list.
+        /// Find which task need the param<task>, and add it into alltasks
         /// </summary>
         /// <param name="task"></param>
-        protected virtual void UpdateTaskRelationShip(Task task)
+        protected virtual void FixRelationship(Task task)
         {
                 if (task.HasNeedOthersTasks)
                 {
-                    foreach (string key in task.NeedOthersTasks.Keys)
+                    foreach (string key in task.NeedOthersTasks)
                     {
-                        this.AllTasks[key].RequiredMeTasks.Add(task.UniqueNameOrId, task);
-                    }
-                }
-
-                if (task.HasRequiredMeTasks)
-                {
-                    foreach (string key in task.RequiredMeTasks.Keys)
-                    {
-                        this.AllTasks[key].NeedOthersTasks.Add(task.UniqueNameOrId, task);
+                        this.AllTasks[key].RequiredMeTasks.Add(task.UniqueNameOrId);
                     }
                 }
         }
@@ -84,15 +60,15 @@ namespace Tilerphy.ConcurrentTaskSplitor
 
         public Task CompleteTask(Task task)
         {
-            foreach (string key in task.RequiredMeTasks.Keys)
+            foreach (string key in task.RequiredMeTasks)
             {
                 this.AllTasks[key].NeedOthersTasks.Remove(task.UniqueNameOrId);
             }
 
             if (this.Remove(task.UniqueNameOrId))
             {
-                IEnumerable<Task> result = FindNoNeedingTasks();
-                return result == null ? null: result.First();
+                List<Task> result = FindNoNeedingTasks();
+                return result == null || result.Count == 0 ? null: result.First();
             }
             else
             {
@@ -105,11 +81,11 @@ namespace Tilerphy.ConcurrentTaskSplitor
             return this.AllTasks.Remove(name);
         }
 
-        public IEnumerable<Task> FindNoNeedingTasks()
+        public List<Task> FindNoNeedingTasks()
         {
             return this.AllTasks
                 .Select(v=>v.Value)
-                .Where(v =>v.NeedOthersTasks == null || v.NeedOthersTasks.Count == 0);
+                .Where(v =>v.NeedOthersTasks == null || v.NeedOthersTasks.Count == 0).ToList();
         }
     }
 }

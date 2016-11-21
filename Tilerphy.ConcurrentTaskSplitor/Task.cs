@@ -17,17 +17,17 @@ namespace Tilerphy.ConcurrentTaskSplitor
         /// <summary>
         /// Which tasks are requiring this task.
         /// </summary>
-        public Dictionary<string, Tilerphy.ConcurrentTaskSplitor.Task> RequiredMeTasks { get; set; }
+        public List<string> RequiredMeTasks { get; set; }
 
         /// <summary>
         /// This task is requiring which tasks.
         /// </summary>
-        public Dictionary<string, Tilerphy.ConcurrentTaskSplitor.Task> NeedOthersTasks { get; set; }
+        public List<string> NeedOthersTasks { get; set; }
 
         public Task()
         {
-            this.NeedOthersTasks = new Dictionary<string, Task>();
-            this.RequiredMeTasks = new Dictionary<string, Task>();
+            this.NeedOthersTasks = new List<string>();
+            this.RequiredMeTasks = new List<string>();
         }
         public bool HasRequiredMeTasks
         {
