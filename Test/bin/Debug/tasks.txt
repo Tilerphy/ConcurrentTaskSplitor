@@ -1,0 +1,10 @@
+﻿[
+{'Name':'Task1', 'Ref':['Task2','Task3']},
+{'Name':'Task2', 'Ref':[]},
+{'Name':'Task3', 'Ref':['Task4']},
+{'Name':'Task4', 'Ref':['Task2']},
+{'Name':'Task5', 'Ref':['Task1', 'Task3']},
+{'Name':'Task6', 'Ref':['Task1', 'Task4']},
+{'Name':'Task7', 'Ref':['Task2', 'Task4']},
+
+]

@@ -9,15 +9,11 @@ namespace Tilerphy.ConcurrentTaskSplitor
 {
     public class TasksManager
     {
-        public List<Worker> Workers { get; set; }
         public Dictionary<string, Task> AllTasks { get; set; }
 
         public TasksManager()
         {
             this.AllTasks = new Dictionary<string, Task>();
-            this.Workers = new List<Worker>();
-            this.Workers.Add(new Worker());
-            this.Workers.Add(new Worker());
         }
         /// <summary>
         /// Add task
@@ -58,22 +54,13 @@ namespace Tilerphy.ConcurrentTaskSplitor
 
         public void ReadTasksFromFile(Stream stream) { }
 
-        public Task CompleteTask(Task task)
+        public void CompleteTask(Task task)
         {
             foreach (string key in task.RequiredMeTasks)
             {
                 this.AllTasks[key].NeedOthersTasks.Remove(task.UniqueNameOrId);
             }
-
-            if (this.Remove(task.UniqueNameOrId))
-            {
-                List<Task> result = FindNoNeedingTasks();
-                return result == null || result.Count == 0 ? null: result.First();
-            }
-            else
-            {
-                throw new Exception("Cannot complete the tasks, the TasksManager cannot run well.");
-            }
+            this.Remove(task.UniqueNameOrId);
         }
 
         public bool Remove(string name)
@@ -81,7 +68,7 @@ namespace Tilerphy.ConcurrentTaskSplitor
             return this.AllTasks.Remove(name);
         }
 
-        public List<Task> FindNoNeedingTasks()
+        public  List<Task> FindNoNeedingTasks()
         {
             return this.AllTasks
                 .Select(v=>v.Value)

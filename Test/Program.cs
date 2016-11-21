@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tilerphy.ConcurrentTaskSplitor;
+using Tilerphy.ConcurrentTaskSplitor.ScriptHandler;
 
 namespace Test
 {
@@ -11,35 +12,42 @@ namespace Test
     {
         public static void Main(string[] args)
         {
-            
-            Tilerphy.ConcurrentTaskSplitor.Task t = new Tilerphy.ConcurrentTaskSplitor.Task();
-            t.UniqueNameOrId = "Task1";
-            t.NeedOthersTasks.Add("Task2");
-
-            Tilerphy.ConcurrentTaskSplitor.Task t2 = new Tilerphy.ConcurrentTaskSplitor.Task();
-            t2.UniqueNameOrId = "Task2";
-            t2.NeedOthersTasks.Add("Task3");
-
-            Tilerphy.ConcurrentTaskSplitor.Task t3 = new Tilerphy.ConcurrentTaskSplitor.Task();
-            t3.UniqueNameOrId = "Task3";
-
-            Tilerphy.ConcurrentTaskSplitor.Task t4 = new Tilerphy.ConcurrentTaskSplitor.Task();
-            t4.UniqueNameOrId = "Task4";
-            t4.NeedOthersTasks.Add("Task2");
+            List<TaskDescriptor> des = DefaultTaskScript.Read("tasks.txt");
             TasksManager manager = new TasksManager();
-            manager.AddTask(t);
-            manager.AddTask(t2);
-            manager.AddTask(t3);
-            manager.AddTask(t4);
-            manager.PrepareInfomation();
-            var xx = manager.FindNoNeedingTasks();
-
-            foreach (var tx in xx)
+            foreach (TaskDescriptor i in des)
             {
-                manager.CompleteTask(tx);
+                Tilerphy.ConcurrentTaskSplitor.Task task = new Tilerphy.ConcurrentTaskSplitor.Task();
+                task.UniqueNameOrId = i.Name;
+                foreach(string r in i.Ref)
+                {
+                    task.NeedOthersTasks.Add(r);
+                }
+                manager.AddTask(task);
             }
-
+            manager.PrepareInfomation();
+            int level = 0;
+            while (true)
+            {
+                var tasks = manager.FindNoNeedingTasks();
+                if (tasks == null || tasks.Count == 0)
+                {
+                    Console.WriteLine("Finished.");
+                    break;
+                }
+                else
+                {
+                    foreach (var tx in tasks)
+                    {
+                        manager.CompleteTask(tx);
+                        Console.WriteLine("[LEVEL: {1}]   {0} is ok.", tx.UniqueNameOrId, level);
+                    }
+                    level++;
+                }
+            }
+           
             Console.WriteLine();
         }
     }
+
+    
 }
