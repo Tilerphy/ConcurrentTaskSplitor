@@ -38,10 +38,15 @@ I have to define some functions now.
 Picture(Tasks Manager):
 
 1. Find_Tasks_With_No_Forward()
+
 [Obsolute]2. Find_Workers()
+
 [Obsolute]3. Send_Task_To_Worker()
+
 4. On_One_Task_Completed()
+
 5. Remove_Task()
+
 
 Worker:
 
