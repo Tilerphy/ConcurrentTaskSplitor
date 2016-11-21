@@ -38,8 +38,8 @@ I have to define some functions now.
 Picture(Tasks Manager):
 
 1. Find_Tasks_With_No_Forward()
-2. Find_Workers()
-3. Send_Task_To_Worker()
+[Obsolute]2. Find_Workers()
+[Obsolute]3. Send_Task_To_Worker()
 4. On_One_Task_Completed()
 5. Remove_Task()
 
@@ -56,7 +56,7 @@ Worker contains its tasks information.
 Worker contains its tasks manager.
 ```
 class TasksManager{
-  List<Worker> works;
+  //List<Worker> works;
   Dictionary<string, Task> tasks;
   
 }
