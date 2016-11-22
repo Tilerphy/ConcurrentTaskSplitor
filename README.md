@@ -35,19 +35,14 @@ If have no `no forward arrow task`, just to wait another work completed.
 
 I have to define some functions now.
 
-Picture(Tasks Manager):
 
 1. Find_Tasks_With_No_Forward()
 
-2. On_One_Task_Completed()
+2. Pop_The_Tasks()
 
-3. Remove_Task()
+3. Peek_The_Tasks()
 
 
-Worker:
-
-1. Do_Task()
-2. Tell_Task_Manager_I_Am_Free()
 
 #How about the data  structure?
 
