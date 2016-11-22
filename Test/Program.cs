@@ -13,22 +13,16 @@ namespace Test
         public static void Main(string[] args)
         {
             List<TaskDescriptor> des = DefaultTaskScript.Read("tasks.txt");
-            TasksManager manager = new TasksManager();
+            TasksSplitor manager = new TasksSplitor();
             foreach (TaskDescriptor i in des)
             {
-                Tilerphy.ConcurrentTaskSplitor.Task task = new Tilerphy.ConcurrentTaskSplitor.Task();
-                task.UniqueNameOrId = i.Name;
-                foreach(string r in i.Ref)
-                {
-                    task.NeedOthersTasks.Add(r);
-                }
-                manager.AddTask(task);
+                manager.AddTask(i.ToTaskItem());
             }
             manager.PrepareInfomation();
             int level = 0;
             while (true)
             {
-                var tasks = manager.FindNoNeedingTasks();
+                var tasks = manager.PeekConcurrentTasks();
                 if (tasks == null || tasks.Count == 0)
                 {
                     Console.WriteLine("Finished.");
@@ -45,7 +39,7 @@ namespace Test
                 }
             }
            
-            Console.WriteLine();
+            Console.ReadLine();
         }
     }
 

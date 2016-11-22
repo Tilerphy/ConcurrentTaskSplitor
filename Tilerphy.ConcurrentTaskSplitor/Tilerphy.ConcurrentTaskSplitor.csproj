@@ -45,9 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ScriptHandler\DefaultTaskScript.cs" />
-    <Compile Include="Task.cs" />
-    <Compile Include="TasksManager.cs" />
-    <Compile Include="Worker.cs" />
+    <Compile Include="Compute\TaskItem.cs" />
+    <Compile Include="Compute\TaskSplitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

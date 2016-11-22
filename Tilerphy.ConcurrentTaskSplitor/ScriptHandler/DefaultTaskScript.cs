@@ -22,6 +22,20 @@ namespace Tilerphy.ConcurrentTaskSplitor.ScriptHandler
     public class TaskDescriptor
     {
         public string Name { get; set; }
-        public List<string> Ref { get; set; }
+        public List<string> Refs { get; set; }
+
+        public Tilerphy.ConcurrentTaskSplitor.TaskItem ToTaskItem()
+        {
+            Tilerphy.ConcurrentTaskSplitor.TaskItem task = new Tilerphy.ConcurrentTaskSplitor.TaskItem();
+            task.UniqueNameOrId = this.Name;
+            if (this.Refs != null)
+            {
+                foreach (string r in this.Refs)
+                {
+                    task.NeedOthersTasks.Add(r);
+                }
+            }
+            return task;
+        }
     }
 }
