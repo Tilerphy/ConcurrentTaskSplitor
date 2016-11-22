@@ -39,13 +39,9 @@ Picture(Tasks Manager):
 
 1. Find_Tasks_With_No_Forward()
 
-[Obsolute]2. Find_Workers()
+2. On_One_Task_Completed()
 
-[Obsolute]3. Send_Task_To_Worker()
-
-4. On_One_Task_Completed()
-
-5. Remove_Task()
+3. Remove_Task()
 
 
 Worker:
@@ -55,27 +51,18 @@ Worker:
 
 #How about the data  structure?
 
-Tasks Manager contains the Jobs picture.
-Tasks Manager contains the worker.
-Worker contains its tasks information.
-Worker contains its tasks manager.
 ```
 class TasksManager{
   //List<Worker> works;
-  Dictionary<string, Task> tasks;
+  Dictionary<string, TaskItem> AllTasks;
   
 }
 
-class Worker{
-  Task task;
-  TasksManager manager;
-}
 
-class Task{
+class TaskItem{
    string uniqueNameOrId;
-   object task;
-   Dictionary<string, Task> requiredTasks;
-   Dictionary<string, Task> needTasks;
+   List<string> requiredTasks;
+   List<string> needTasks;
 }
 ```
 
