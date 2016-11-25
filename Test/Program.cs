@@ -22,7 +22,7 @@ namespace Test
             int level = 0;
             while (true)
             {
-                var tasks = manager.PeekConcurrentTasks();
+                var tasks = manager.PopConcurrentTasks();
                 if (tasks == null || tasks.Count == 0)
                 {
                     Console.WriteLine("Finished.");
@@ -32,7 +32,6 @@ namespace Test
                 {
                     foreach (var tx in tasks)
                     {
-                        manager.CompleteTask(tx);
                         Console.WriteLine("[LEVEL: {1}]   {0} is ok.", tx.UniqueNameOrId, level);
                     }
                     level++;

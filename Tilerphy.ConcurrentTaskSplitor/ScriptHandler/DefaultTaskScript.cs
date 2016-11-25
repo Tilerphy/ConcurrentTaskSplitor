@@ -32,7 +32,7 @@ namespace Tilerphy.ConcurrentTaskSplitor.ScriptHandler
             {
                 foreach (string r in this.Refs)
                 {
-                    task.NeedOthersTasks.Add(r);
+                    task.PostActions.Add(r);
                 }
             }
             return task;

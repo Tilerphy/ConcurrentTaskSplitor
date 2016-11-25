@@ -1,4 +1,4 @@
-[
+﻿[
 {'Name':'Task1', 'Refs':['Task2','Task3']},
 {'Name':'Task2', 'Refs':[]},
 {'Name':'Task3', 'Refs':['Task4']},

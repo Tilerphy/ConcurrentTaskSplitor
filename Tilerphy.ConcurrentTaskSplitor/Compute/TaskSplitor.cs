@@ -40,18 +40,18 @@ namespace Tilerphy.ConcurrentTaskSplitor
         {
                 if (task.HasNeedOthersTasks)
                 {
-                    foreach (string key in task.NeedOthersTasks)
+                    foreach (string key in task.PostActions)
                     {
-                        this.AllTasks[key].RequiredMeTasks.Add(task.UniqueNameOrId);
+                        this.AllTasks[key].PreActions.Add(task.UniqueNameOrId);
                     }
                 }
         }
 
         public virtual void CompleteTask(TaskItem task)
         {
-            foreach (string key in task.RequiredMeTasks)
+            foreach (string key in task.PreActions)
             {
-                this.AllTasks[key].NeedOthersTasks.Remove(task.UniqueNameOrId);
+                this.AllTasks[key].PostActions.Remove(task.UniqueNameOrId);
             }
             this.Remove(task.UniqueNameOrId);
         }
@@ -69,7 +69,7 @@ namespace Tilerphy.ConcurrentTaskSplitor
         {
             return this.AllTasks
                 .Select(v=>v.Value)
-                .Where(v =>v.NeedOthersTasks == null || v.NeedOthersTasks.Count == 0).ToList();
+                .Where(v =>v.PostActions == null || v.PostActions.Count == 0).ToList();
         }
 
         /// <summary>
