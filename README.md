@@ -1,3 +1,7 @@
+# Javascript version
+
+https://github.com/Tilerphy/ConcurrentTaskSplitorJs 
+
 # Concurrent Task Splitor
 Split A Tasks Group into pairs , then run them concurrently.
 
